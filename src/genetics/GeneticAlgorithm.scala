@@ -8,8 +8,6 @@ import scala.collection.mutable.ListBuffer
 object GeneticAlgorithm {
 
   def geneticAlgorithm[T](fitness: T => Double, map: List[Gene] => T, sampleGList: List[Gene]): T = {
-    var countLoop = 0
-
     //create a list to store all the type T objects
     var aniList = new ListBuffer[GenericType[T]]()
 
@@ -25,11 +23,9 @@ object GeneticAlgorithm {
 
     aniList.sortWith(_.fitness > _.fitness)
 
-    //30000 generations in total
+    //35000 generations in total
     for (i <- 0 to 35000)
     {
-      countLoop += 1 // for testing efficiency
-
       val best = aniList.head
       val second = aniList(1)
 
@@ -108,7 +104,6 @@ object GeneticAlgorithm {
       aniList = aniList.sortWith(_.fitness > _.fitness).splitAt(20)._1
 
       //println(aniList.head.instance) //for testing
-      //println(countLoop)
     }
 
     //return the best one
@@ -136,7 +131,7 @@ object GeneticAlgorithm {
   }
 
   //map fitness value
-  //convert [-inf, inf] to [0, 1]
+  //map [-inf, inf] to [0, 1]
   //the closer to 1, the better the data
   def mapFit(in: Double): Double = {
     1 - (2 * Math.atan(in)) / Math.PI
